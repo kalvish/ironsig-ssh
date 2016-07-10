@@ -47,7 +47,7 @@ io.sockets.on('connection', function (socket) {
 console.log('Client said: ', 'test');
 
     socket.on('new-channel', function (data) {
-        console.log('Client said: ', 'test');
+        console.log('Client said: ', 'new-channel request');
         if (!channels[data.channel]) {
             initiatorChannel = data.channel;
         }
