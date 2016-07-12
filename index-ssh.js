@@ -182,3 +182,8 @@ var socket = require('socket.io-client')('https://localhost:8080');
   socket.on('connect', function(){});
   socket.on('event', function(data){});
   socket.on('disconnect', function(){});
+  socket.emit('create or join', "temproom");
+  socket.on('message-peer', function(message) {
+  //console.log('Client received message ', message);
+  console.log('Client-peer received message ', message);
+});
