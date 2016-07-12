@@ -1,9 +1,9 @@
-var isInitiator = false;
+// var isInitiator = false;
 
-var configuration = null;
+// var configuration = null;
 
-var Peer = require('simple-peer')
-var p;
+// var Peer = require('simple-peer')
+// var p;
 
 
 var fs = require('fs');
@@ -178,12 +178,15 @@ app.listen(8080);
 //   console.log('Client-peer received message ', message);
 // });
 
-var socket = require('socket.io-client')('http://localhost:8080');
-  socket.on('connect', function(){});
-  socket.on('event', function(data){});
-  socket.on('disconnect', function(){});
-  socket.emit('create or join', "temproom");
-  socket.on('message-peer', function(message) {
-  //console.log('Client received message ', message);
-  console.log('Client-peer received message ', message);
-});
+
+
+
+// var socket = require('socket.io-client')('http://localhost:8080');
+//   socket.on('connect', function(){});
+//   socket.on('event', function(data){});
+//   socket.on('disconnect', function(){});
+//   socket.emit('create or join', "temproom");
+//   socket.on('message-peer', function(message) {
+//   //console.log('Client received message ', message);
+//   console.log('Client-peer received message ', message);
+// });
