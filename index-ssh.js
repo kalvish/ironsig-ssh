@@ -3,6 +3,7 @@ var isInitiator = false;
 var configuration = null;
 
 var Peer = require('simple-peer')
+var wrtc = require('wrtc')
 var p;
 
 
@@ -267,9 +268,12 @@ function sendMessage(message) {
     if(isInitiator){
 
 
-    p = new Peer({ initiator: true, trickle: false });
+    //p = new Peer({ initiator: true, trickle: false });
+    p  = new Peer({ initiator: true, wrtc: wrtc })
+
   }else{
-    p = new Peer({ initiator: false, trickle: false });
+    //p = new Peer({ initiator: false, trickle: false });
+    p = new Peer({ wrtc: wrtc })
   }
   // send any ice candidates to the other peer
   // peerConn.onicecandidate = function(event) {
