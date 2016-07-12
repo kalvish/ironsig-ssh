@@ -164,6 +164,7 @@ function onNewNamespace(channel, sender) {
 
 app.listen(8080);
 
+var io = require('socket.io');
 var socket = io.connect('https://localhost:8080');
 socket.on('news', function (data) {
   console.log(data);
