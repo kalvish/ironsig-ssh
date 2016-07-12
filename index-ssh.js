@@ -71,6 +71,8 @@ io.sockets.on('connection', function (socket) {
         console.log('Client said: ', message);
         // for a real app, would be room-only (not broadcast)
         socket.broadcast.emit('message', message);
+
+        socket.broadcast.emit('message-peer', message);
     });
 
     // convenience function to log server messages on the client
@@ -144,5 +146,20 @@ function onNewNamespace(channel, sender) {
         });
     });
 }
+
+
+var isInitiator = false;
+
+var configuration = null;
+
+var Peer = require('simple-peer')
+var p;
+
+socket.emit('create or join', "temproom");
+
+socket.on('message-peer', function(message) {
+  //console.log('Client received message ', message);
+  console.log('Client-peer received message ', message);
+});
 
 app.listen(8080);
