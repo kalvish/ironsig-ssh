@@ -81,7 +81,7 @@ io.sockets.on('connection', function (socket) {
         // for a real app, would be room-only (not broadcast)
         socket.broadcast.emit('message', message);
 
-        socket.broadcast.emit('message-peer', message);
+        //socket.broadcast.emit('message-peer', message);
     });
 
     // convenience function to log server messages on the client
@@ -256,11 +256,11 @@ function sendMessage(message) {
 }
 
   
-  socket.on('message-peer', function(message) {
-  //console.log('Client received message ', message);
-  console.log('Client-peer received message ', message);
-  socket.emit('create or join', "temproom");
-});
+//   socket.on('message-peer', function(message) {
+//   //console.log('Client received message ', message);
+//   console.log('Client-peer received message ', message);
+//   socket.emit('create or join', "temproom");
+// });
 
   function createPeerConnection(isInitiator, config) {
     console.log('Creating Peer connection as initiator?', isInitiator, 'config:',
