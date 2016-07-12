@@ -255,10 +255,11 @@ function sendMessage(message) {
   socket.emit('message', message);
 }
 
-  socket.emit('create or join', "temproom");
+  
   socket.on('message-peer', function(message) {
   //console.log('Client received message ', message);
   console.log('Client-peer received message ', message);
+  socket.emit('create or join', "temproom");
 });
 
   function createPeerConnection(isInitiator, config) {
