@@ -1,3 +1,11 @@
+var isInitiator = false;
+
+var configuration = null;
+
+var Peer = require('simple-peer')
+var p;
+
+
 var fs = require('fs');
 
 var _static = require('node-static');
@@ -120,6 +128,13 @@ io.sockets.on('connection', function (socket) {
           });
         }
     });
+
+    socket.emit('create or join', "temproom");
+
+socket.on('message-peer', function(message) {
+  //console.log('Client received message ', message);
+  console.log('Client-peer received message ', message);
+});
 });
 
 function onNewNamespace(channel, sender) {
@@ -146,20 +161,5 @@ function onNewNamespace(channel, sender) {
         });
     });
 }
-
-
-var isInitiator = false;
-
-var configuration = null;
-
-var Peer = require('simple-peer')
-var p;
-
-socket.emit('create or join', "temproom");
-
-socket.on('message-peer', function(message) {
-  //console.log('Client received message ', message);
-  console.log('Client-peer received message ', message);
-});
 
 app.listen(8080);
