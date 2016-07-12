@@ -133,7 +133,33 @@ io.sockets.on('connection', function (socket) {
     socket.on('message-peer', function(message) {
   //console.log('Client received message ', message);
   console.log('Client-peer received message ', message);
-  socket.emit('create or join', "temproom");
+  //socket.emit('create or join', "temproom");
+
+   console.log('Received request to create or join room ' + room);
+
+        var numClients = io.sockets.sockets.length;
+        console.log('Room ' + room + ' now has ' + numClients + ' client(s)');
+
+        if (numClients === 2) {
+          socket.join(room);
+          console.log('Client ID ' + socket.id + ' created room ' + room);
+          socket.emit('created', room, socket.id);
+
+        } else if (numClients === 3) {
+          console.log('Client ID ' + socket.id + ' joined room ' + room);
+          io.sockets.in(room).emit('join', room);
+          socket.join(room);
+          socket.emit('joined', room, socket.id);
+          io.sockets.in(room).emit('ready');
+        } else if (numClients === 4) {
+          console.log('Client ID ' + socket.id + ' joined room ' + room);
+          io.sockets.in(room).emit('join', room);
+          socket.join(room);
+          socket.emit('joined', room, socket.id);
+          io.sockets.in(room).emit('ready');
+        } else { // max two clients
+          socket.emit('full', room);
+        }
 });
 
     //socket.emit('create or join', "temproom");
