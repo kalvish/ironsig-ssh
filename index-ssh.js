@@ -319,7 +319,7 @@ function sendMessage(message) {
 
     //dataChannel = p.createDataChannel('photos');
 
-    onDataChannelCreated(dataChannel);
+    onDataChannelCreated();
 
     console.log('Creating an offer');
     //p.createOffer(onLocalSessionCreated, logError);
@@ -335,12 +335,12 @@ function sendMessage(message) {
     //   onDataChannelCreated(dataChannel);
     // };
 
-    onDataChannelCreated(dataChannel);
+    onDataChannelCreated();
   }
 }
 
-function onDataChannelCreated(channel) {
-  console.log('onDataChannelCreated:', channel);
+function onDataChannelCreated() {
+  //console.log('onDataChannelCreated:', channel);
 
   // channel.onopen = function() {
   //   console.log('CHANNEL opened!!!');
