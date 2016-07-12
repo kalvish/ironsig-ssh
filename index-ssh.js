@@ -136,7 +136,7 @@ io.sockets.on('connection', function (socket) {
 //   //console.log('Client received message ', message);
 //   console.log('Client-peer received message ', message);
 // });
-// });
+ });
 
 function onNewNamespace(channel, sender) {
     io.of('/' + channel).on('connection', function (socket) {
