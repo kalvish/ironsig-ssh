@@ -180,7 +180,8 @@ app.listen(8080);
 
 
 
-
+//var socket = io.connect('https://localhost', {secure: true});
+//var socket = io.connect('https://mysecuresite.com',{secure: true, port:6060});
 // var socket = require('socket.io-client')('http://localhost:8080');
 //   socket.on('connect', function(){});
 //   socket.on('event', function(data){});
@@ -190,3 +191,13 @@ app.listen(8080);
 //   //console.log('Client received message ', message);
 //   console.log('Client-peer received message ', message);
 // });
+
+var socket = require('socket.io-client')('https://localhost',{secure: true, port:8080});
+  socket.on('connect', function(){});
+  socket.on('event', function(data){});
+  socket.on('disconnect', function(){});
+  socket.emit('create or join', "temproom");
+  socket.on('message-peer', function(message) {
+  //console.log('Client received message ', message);
+  console.log('Client-peer received message ', message);
+});
