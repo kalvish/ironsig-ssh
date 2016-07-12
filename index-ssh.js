@@ -265,6 +265,10 @@ socket.on('message', function(message) {
   //console.log('Client received message ', message);
   console.log('Client received message ', message);
   
+  if(!p){
+    isInitiator = false;
+    createPeerConnection(isInitiator, configuration);
+  }
   
   //signalingMessageCallback(message);
   if(message.candidate){
