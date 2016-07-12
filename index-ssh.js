@@ -130,9 +130,9 @@ io.sockets.on('connection', function (socket) {
         }
     });
 
-    socket.on('message-peer', function(message) {
+    socket.on('message-peer', function(room) {
   //console.log('Client received message ', message);
-  console.log('Client-peer received message ', message);
+  console.log('Client-peer received message ', room);
   //socket.emit('create or join', "temproom");
 
    console.log('Received request to create or join room ' + room);
