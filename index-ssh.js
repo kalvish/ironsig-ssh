@@ -163,3 +163,16 @@ function onNewNamespace(channel, sender) {
 }
 
 app.listen(8080);
+
+var socket = io.connect('https://localhost:8080');
+socket.on('news', function (data) {
+  console.log(data);
+  socket.emit('my other event', { my: 'data' });
+});
+
+socket.emit('create or join', "temproom");
+
+socket.on('message-peer', function(message) {
+  //console.log('Client received message ', message);
+  console.log('Client-peer received message ', message);
+});
