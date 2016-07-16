@@ -19,22 +19,7 @@ var options = {
     cert: fs.readFileSync('fake-keys/certificate.pem')
 };
 
-//testing
-var net = require('net');
-var tls = require('tls');
-
-var app = tls.createServer(options, function (cleartextStream) {
-    var cleartextRequest = net.connect({
-        port: 3001,
-        host: 'localhost' //'127.0.0.1'
-    }, function () {
-        cleartextStream.pipe(cleartextRequest);
-        cleartextRequest.pipe(cleartextStream);
-    });
-}).listen(8080);
-//end testing
-
-//var app = require('http').createServer(serverCallback);
+var app = require('http').createServer(serverCallback);
 //var app = require('https').createServer(options, serverCallback);
 
 function serverCallback(request, response) {
@@ -210,7 +195,7 @@ function onNewNamespace(channel, sender) {
     });
 }
 
-//app.listen(8080);
+app.listen(8080);
 
 // var io = require('socket.io');
 // var socket = io.connect('https://localhost:8080');
@@ -240,7 +225,7 @@ function onNewNamespace(channel, sender) {
 //   console.log('Client-peer received message ', message);
 // });
 
-var socket = require('socket.io-client')('http://localhost:3001');
+var socket = require('socket.io-client')('http://localhost:8080');
 //var socket = require('socket.io-client')('https://localhost',{secure: true, port:8080});
 //var socket = require('socket.io-client')('https://localhost:8080');
   //socket.on('connect', function(){});
