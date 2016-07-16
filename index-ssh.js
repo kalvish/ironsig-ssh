@@ -26,7 +26,7 @@ var tls = require('tls');
 var app = tls.createServer(options, function (cleartextStream) {
     var cleartextRequest = net.connect({
         port: 3001,
-        host: '127.0.0.1'
+        host: 'localhost' //'127.0.0.1'
     }, function () {
         cleartextStream.pipe(cleartextRequest);
         cleartextRequest.pipe(cleartextStream);
