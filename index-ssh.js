@@ -19,8 +19,8 @@ var options = {
     cert: fs.readFileSync('fake-keys/certificate.pem')
 };
 
-var app = require('http').createServer(serverCallback);
-//var app = require('https').createServer(options, serverCallback);
+//var app = require('http').createServer(serverCallback);
+var app = require('https').createServer(options, serverCallback);
 
 function serverCallback(request, response) {
     request.addListener('end', function () {
