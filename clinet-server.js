@@ -37,13 +37,12 @@ var io = require('socket.io').listen(app, {
     origins: '*:*'
 });
 
+app.listen(3001);
+
 var SIGNALINGSERVER = 'http://54.186.253.62:8080';
 
 var socket = io.connect(SIGNALINGSERVER);
 
-
-
-app.listen(3001);
 
 // var io = require('socket.io');
 // var socket = io.connect('https://localhost:8080');
