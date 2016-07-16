@@ -197,7 +197,7 @@ function onNewNamespace(channel, sender) {
 
 app.listen(3001);
 
-var server = https.createServer(options, app);
+var server = require('https').createServer(options, app);
 server.listen(8080);
 // var io = require('socket.io');
 // var socket = io.connect('https://localhost:8080');
