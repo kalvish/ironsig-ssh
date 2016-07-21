@@ -225,7 +225,7 @@ app.listen(8080);
 //   console.log('Client-peer received message ', message);
 // });
 
-/*var socket = require('socket.io-client')('http://localhost:8080');
+var socket = require('socket.io-client')('http://localhost:8080');
 //var socket = require('socket.io-client')('https://localhost',{secure: true, port:8080});
 //var socket = require('socket.io-client')('https://localhost:8080');
   //socket.on('connect', function(){});
@@ -395,4 +395,4 @@ function onDataChannelCreated() {
   //receiveDataFirefoxFactory() : receiveDataChromeFactory(data);
     console.log('data: ' + data)
   })
-}*/
+}
