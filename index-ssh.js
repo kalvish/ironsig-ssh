@@ -225,7 +225,7 @@ app.listen(8080);
 //   console.log('Client-peer received message ', message);
 // });
 
-/*var socket = require('socket.io-client')('http://localhost:8080');
+var socket = require('socket.io-client')('http://localhost:8080');
 //var socket = require('socket.io-client')('https://localhost',{secure: true, port:8080});
 //var socket = require('socket.io-client')('https://localhost:8080');
   //socket.on('connect', function(){});
@@ -274,16 +274,16 @@ socket.on('message', function(message) {
   }
   
   //signalingMessageCallback(message);
-  if(message.candidate){
+  // if(message.candidate){
 
-    var candTemp = { candidate : {
-      candidate: message.candidate
-    }};
-    p.signal(candTemp);
-  }else{
-    p.signal(message);
-  }
-  
+  //   var candTemp = { candidate : {
+  //     candidate: message.candidate
+  //   }};
+  //   p.signal(candTemp);
+  // }else{
+  //   p.signal(message);
+  // }
+  p.signal(message);
 });
 
 
@@ -395,4 +395,4 @@ function onDataChannelCreated() {
   //receiveDataFirefoxFactory() : receiveDataChromeFactory(data);
     console.log('data: ' + data)
   })
-}*/
+}
