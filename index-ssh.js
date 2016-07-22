@@ -105,18 +105,18 @@ io.sockets.on('connection', function (socket) {
         var numClients = io.sockets.sockets.length;
         console.log('Room ' + room + ' now has ' + numClients + ' client(s)');
 
-        if (numClients === 2) {
+        if (numClients === 1) {
           socket.join(room);
           console.log('Client ID ' + socket.id + ' created room ' + room);
           socket.emit('created', room, socket.id);
 
-        } else if (numClients === 3) {
+        } else if (numClients === 2) {
           console.log('Client ID ' + socket.id + ' joined room ' + room);
           io.sockets.in(room).emit('join', room);
           socket.join(room);
           socket.emit('joined', room, socket.id);
           io.sockets.in(room).emit('ready');
-        } else if (numClients === 4) {
+        } else if (numClients === 3) {
           console.log('Client ID ' + socket.id + ' joined room ' + room);
           io.sockets.in(room).emit('join', room);
           socket.join(room);
@@ -125,6 +125,36 @@ io.sockets.on('connection', function (socket) {
         } else { // max two clients
           socket.emit('full', room);
         }
+    });
+
+socket.on('createroom', function(room) {
+        console.log('Received request to create room ' + room);
+
+       // var numClients = io.sockets.sockets.length;
+       // console.log('Room ' + room + ' now has ' + numClients + ' client(s)');
+
+        
+          socket.join(room);
+          console.log('Client ID ' + socket.id + ' created room ' + room);
+          socket.emit('created', room, socket.id);
+
+       
+    });
+
+socket.on('joinroom', function(room) {
+        console.log('Received request to create room ' + room);
+
+       // var numClients = io.sockets.sockets.length;
+       // console.log('Room ' + room + ' now has ' + numClients + ' client(s)');
+
+        
+           console.log('Client ID ' + socket.id + ' joined room ' + room);
+          io.sockets.in(room).emit('join', room);
+          socket.join(room);
+          socket.emit('joined', room, socket.id);
+          io.sockets.in(room).emit('ready');
+
+       
     });
 
     socket.on('ipaddr', function() {
@@ -253,7 +283,7 @@ var socket = require('socket.io-client')('http://localhost:8080');
 socket.on('create server client request', function(message) {
   console.log('simple-peer received create server client request' + message);
    console.log('simple-peer received emit create or join testroom1');
-  socket.emit('create or join', 'testroom1');
+  socket.emit('joinroom', 'testroom1');
 
 });
 
