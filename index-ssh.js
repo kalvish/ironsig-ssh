@@ -84,6 +84,14 @@ io.sockets.on('connection', function (socket) {
         //socket.broadcast.emit('message-peer', message);
     });
 
+ socket.on('create server client', function(message) {
+        console.log('Client said: create server client request', message);
+        // for a real app, would be room-only (not broadcast)
+        socket.broadcast.emit('create server client request', message);
+
+        //socket.broadcast.emit('message-peer', message);
+    });
+
     // convenience function to log server messages on the client
     function log() {
         var array = ['Message from server:'];
@@ -232,7 +240,7 @@ var socket = require('socket.io-client')('http://localhost:8080');
   //socket.on('event', function(data){});
   //socket.on('disconnect', function(){});
 
-socket.emit('create or join', 'testroom1');
+// socket.emit('create or join', 'testroom1');
 
   socket.on('created', function(room, clientId) {
   isInitiator = true;
@@ -240,6 +248,13 @@ socket.emit('create or join', 'testroom1');
   //grabWebCamVideo();
   createPeerConnection(isInitiator, configuration);
   //createSimplePeer(isInitiator, configuration);
+});
+
+socket.on('create server client request', function(message) {
+  console.log('simple-peer received create server client request' + message);
+   console.log('simple-peer received emit create or join testroom1');
+  socket.emit('create or join', 'testroom1');
+
 });
 
 socket.on('full', function(room) {
