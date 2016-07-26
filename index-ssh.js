@@ -276,30 +276,30 @@ var socket = require('socket.io-client')('http://localhost:8080');
 
   socket.on('created', function(room, clientId) {
   isInitiator = true;
-  console.log('Created room', room, '- my client ID is', clientId);
+  console.log('PEER:Created room', room, '- my client ID is', clientId);
   //grabWebCamVideo();
   createPeerConnection(isInitiator, configuration);
   //createSimplePeer(isInitiator, configuration);
 });
 
 socket.on('create server client request', function(message) {
-  console.log('simple-peer received create server client request' + message);
-   console.log('simple-peer received emit create or join testroom1');
+  console.log('PEER:simple-peer received create server client request' + message);
+   console.log('PEER:simple-peer received emit create or join testroom1');
   socket.emit('joinroom', 'testroom1');
 
 });
 
 socket.on('full', function(room) {
-  console.log('Message from client: Room ' + room + ' is full :^(');
+  console.log('PEER:Message from client: Room ' + room + ' is full :^(');
 });
 
 socket.on('ipaddr', function(ipaddr) {
-  console.log('Message from client: Server IP address is ' + ipaddr);
+  console.log('PEER:Message from client: Server IP address is ' + ipaddr);
 });
 
 socket.on('joined', function(room, clientId) {
   isInitiator = false;
-  console.log('This peer has joined room', room, 'with client ID', clientId);
+  console.log('PEER:This peer has joined room', room, 'with client ID', clientId);
   serverClientId = clientId;
 
   //grabWebCamVideo();
@@ -312,19 +312,19 @@ socket.on('join', function(room, clientId) {
   if(serverClientId===clientId){
 
   }else{
-    console.log('Peer with client id, ', clientId, ' joined room', room);
+    console.log('PEER:Peer with client id, ', clientId, ' joined room', room);
   }
 });
 
 socket.on('ready', function() {
-  console.log('Socket is ready');
+  console.log('PEER:Socket is ready');
   createPeerConnection(isInitiator, configuration);
   //createSimplePeer(isInitiator, configuration);
 });
 
 socket.on('message', function(message) {
   //console.log('Client received message ', message);
-  console.log('Client received message ', message);
+  console.log('PEER:Client received message ', message);
   
   if(!p){
     isInitiator = false;
@@ -348,7 +348,7 @@ socket.on('message', function(message) {
 //Send message to signaling server
 
 function sendMessage(message) {
-  console.log('Client sending message with type ', message.type);
+  console.log('PEER:Client sending message with type ', message.type);
   socket.emit('message', message);
 }
 
@@ -356,7 +356,7 @@ function sendMessage(message) {
   
 
   function createPeerConnection(isInitiator, config) {
-    console.log('Creating Peer connection as initiator?', isInitiator, 'config:',
+    console.log('PEER:Creating Peer connection as initiator?', isInitiator, 'config:',
               config);
     //peerConn = new RTCPeerConnection(config);
     if(isInitiator){
@@ -399,12 +399,12 @@ function sendMessage(message) {
 
   p.on('signal', function (data) {
     sendMessage(data);
-    console.log('SIGNAL', data)
+    console.log('PEER:SIGNAL', data)
   })
 
   if (isInitiator) {
 
-    console.log('Creating Data Channel');
+    console.log('PEER:Creating Data Channel');
     // dataChannel = peerConn.createDataChannel('photos');
     // onDataChannelCreated(dataChannel);
 
@@ -415,7 +415,7 @@ function sendMessage(message) {
 
     onDataChannelCreated();
 
-    console.log('Creating an offer');
+    console.log('PEER:Creating an offer');
     //p.createOffer(onLocalSessionCreated, logError);
   } else {
     // peerConn.ondatachannel = function(event) {
@@ -441,8 +441,8 @@ function onDataChannelCreated() {
   // };
   p.on('connect', function () {
     var toSend = Math.random();
-    console.log('CONNECT and Send' + toSend);
-    p.send('whatever' + toSend);
+    console.log('PEER:CONNECT and Send' + toSend);
+    p.send('PEER:whatever' + toSend);
   })
 
   //channel.onmessage = (adapter.browserDetails.browser === 'firefox') ?
@@ -451,6 +451,6 @@ function onDataChannelCreated() {
   p.on('data', function (data) {
     //(adapter.browserDetails.browser === 'firefox') ?
   //receiveDataFirefoxFactory() : receiveDataChromeFactory(data);
-    console.log('data: ' + data)
+    console.log('PEER:data: ' + data)
   })
 }
