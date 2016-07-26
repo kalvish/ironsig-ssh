@@ -53,6 +53,8 @@ var channels = {};
 
 rooms = [];
 
+var serverClientCreated = false;
+
 io.sockets.on('connection', function (socket) {
     var initiatorChannel = '';
     if (!io.isConnected) {
@@ -133,16 +135,54 @@ io.sockets.on('connection', function (socket) {
         }
     });
 
+
+
+socket.on('commpac-server_room_create_or_join', function(roomIn) {
+
+  console.log('on-commpac-server_room_create_or_join',roomIn);
+  //check whether server client is available or not.
+  if(serverClientCreated){
+
+  }else{
+    socket.emit('commpac-serverclient_create_server_client');
+    console.log('emit-commpac-serverclient_create_server_client');
+  }
+
+   if(rooms.length>0){
+      roomToChk = _.find(rooms, {room : roomIn});
+      console.log('Lodash working',roomToChk);
+      if(roomToChk){
+        //room exists, join room
+        console.log('Client ID ' + socket.id + ' joined room ' + roomIn);
+        io.sockets.in(roomIn).emit('commpac_notif_room_join', {room:roomIn,clientid:socket.id});
+        //io.sockets.in(room).emit('join', roomIn);
+        socket.join(roomIn);
+        socket.emit('commpac_room_joined', {room:roomIn,clientid:socket.id});
+        //socket.emit('joined', room, socket.id);
+        //io.sockets.in(room).emit('ready');
+        //io.sockets.in(roomIn).emit('commpac_room_ready', {room:roomIn,clientid:socket.id});
+      }else {
+        //room not available, create room
+        rooms.push({room:roomIn});
+        socket.join(roomIn);
+        console.log('Client ID ' + socket.id + ' created room ' + roomIn);
+        //socket.emit('created', roomIn, socket.id);
+        socket.emit('commpac_room_created', {room:roomIn,clientid:socket.id});
+      }
+   }else{
+      //rooms array is empty. create room
+      rooms.push({room:roomIn});
+      socket.join(roomIn);
+      console.log('Client ID ' + socket.id + ' created room ' + roomIn);
+      //socket.emit('created', roomIn, socket.id);
+      socket.emit('commpac_room_created', {room:roomIn,clientid:socket.id});
+   }
+});
+
 socket.on('createroom', function(roomIn) {
         console.log('Received request to create room ' + roomIn);
 
-        if(rooms.length>0){
-
-        }else{
-          rooms.push({room:roomIn});
-          roomToChk = _.find(rooms, {room : 'testroom1'});
-          console.log('Lodash working',roomToChk);
-        }
+       
        // var numClients = io.sockets.sockets.length;
        // console.log('Room ' + room + ' now has ' + numClients + ' client(s)');
 
@@ -153,6 +193,20 @@ socket.on('createroom', function(roomIn) {
 
        
     });
+
+var commpac_serverclientid;
+var commpac_roomserverclient;
+//commpac-server_server_client_joinroom
+socket.on('commpac-server_server_client_joinroom', function(roomServerClient) {
+  console.log('on-commpac-server_server_client_joinroom',roomServerClient);
+  serverClientCreated = true;
+  commpac_serverclientid = socket.id;
+     socket.join(roomServerClient);
+      io.sockets.in(roomServerClient).emit('commpac-client_server_client_joined', roomServerClient);
+      console.log('emit-commpac-client_server_client_joined',roomServerClient);
+      socket.emit('commpac-client_server_client_ready', roomServerClient, socket.id);
+      console.log('emit-commpac-client_server_client_ready');
+  });
 
 socket.on('joinroom', function(room) {
         console.log('Received request to create room ' + room);
@@ -294,6 +348,17 @@ var socket = require('socket.io-client')('http://localhost:8080');
   createPeerConnection(isInitiator, configuration);
   //createSimplePeer(isInitiator, configuration);
 });
+
+//commpac-serverclient_create_server_client
+socket.on('commpac-serverclient_create_server_client', function(message) {
+      console.log('on-commpac-serverclient_create_server_client');
+      socket.emit('commpac-server_server_client_joinroom', 'serverclientroom');
+      console.log('emit-commpac-server_server_client_joinroom');
+  });
+
+socket.on('commpac-client_server_client_joined', function(message) {
+      console.log('on-commpac-client_server_client_joined',message);
+  });
 
 socket.on('create server client request', function(message) {
   console.log('PEER:simple-peer received create server client request' + message);
