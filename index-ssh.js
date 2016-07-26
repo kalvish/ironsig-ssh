@@ -4,6 +4,10 @@ var configuration = null;
 
 var Peer = require('simple-peer')
 var wrtc = require('wrtc')
+
+// Load the full build.
+var _ = require('lodash');
+
 var p;
 
 
