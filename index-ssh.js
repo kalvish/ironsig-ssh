@@ -286,63 +286,116 @@ socket.on('create server client request', function(message) {
   console.log('PEER:simple-peer received create server client request' + message);
    console.log('PEER:simple-peer received emit create or join testroom1');
   socket.emit('joinroom', 'testroom1');
+          socket.on('full', function(room) {
+          console.log('PEER:Message from client: Room ' + room + ' is full :^(');
+        });
 
+        socket.on('ipaddr', function(ipaddr) {
+          console.log('PEER:Message from client: Server IP address is ' + ipaddr);
+        });
+
+        socket.on('joined', function(room, clientId) {
+          isInitiator = false;
+          console.log('PEER:This peer has joined room', room, 'with client ID', clientId);
+          serverClientId = clientId;
+
+          //grabWebCamVideo();
+          createPeerConnection(isInitiator, configuration);
+          //createSimplePeer(isInitiator, configuration);
+        });
+
+        socket.on('join', function(room, clientId) {
+          isInitiator = false;
+          if(serverClientId===clientId){
+
+          }else{
+            console.log('PEER:Peer with client id, ', clientId, ' joined room', room);
+          }
+        });
+
+        socket.on('ready', function() {
+          console.log('PEER:Socket is ready');
+          createPeerConnection(isInitiator, configuration);
+          //createSimplePeer(isInitiator, configuration);
+        });
+
+        socket.on('message', function(message) {
+          //console.log('Client received message ', message);
+          console.log('PEER:Client received message ', message);
+          
+          if(!p){
+            isInitiator = false;
+            createPeerConnection(isInitiator, configuration);
+          }
+          
+          //signalingMessageCallback(message);
+          // if(message.candidate){
+
+          //   var candTemp = { candidate : {
+          //     candidate: message.candidate
+          //   }};
+          //   p.signal(candTemp);
+          // }else{
+          //   p.signal(message);
+          // }
+          p.signal(message);
+        });
 });
 
-socket.on('full', function(room) {
-  console.log('PEER:Message from client: Room ' + room + ' is full :^(');
-});
+// socket.on('full', function(room) {
+//   console.log('PEER:Message from client: Room ' + room + ' is full :^(');
+// });
 
-socket.on('ipaddr', function(ipaddr) {
-  console.log('PEER:Message from client: Server IP address is ' + ipaddr);
-});
+// socket.on('ipaddr', function(ipaddr) {
+//   console.log('PEER:Message from client: Server IP address is ' + ipaddr);
+// });
 
-socket.on('joined', function(room, clientId) {
-  isInitiator = false;
-  console.log('PEER:This peer has joined room', room, 'with client ID', clientId);
-  serverClientId = clientId;
+// socket.on('joined', function(room, clientId) {
+//   isInitiator = false;
+//   console.log('PEER:This peer has joined room', room, 'with client ID', clientId);
+//   serverClientId = clientId;
 
-  //grabWebCamVideo();
-  createPeerConnection(isInitiator, configuration);
-  //createSimplePeer(isInitiator, configuration);
-});
+//   //grabWebCamVideo();
+//   createPeerConnection(isInitiator, configuration);
+//   //createSimplePeer(isInitiator, configuration);
+// });
 
-socket.on('join', function(room, clientId) {
-  isInitiator = false;
-  if(serverClientId===clientId){
+// socket.on('join', function(room, clientId) {
+//   isInitiator = false;
+//   if(serverClientId===clientId){
 
-  }else{
-    console.log('PEER:Peer with client id, ', clientId, ' joined room', room);
-  }
-});
+//   }else{
+//     console.log('PEER:Peer with client id, ', clientId, ' joined room', room);
+//   }
+// });
 
-socket.on('ready', function() {
-  console.log('PEER:Socket is ready');
-  createPeerConnection(isInitiator, configuration);
-  //createSimplePeer(isInitiator, configuration);
-});
+// socket.on('ready', function() {
+//   console.log('PEER:Socket is ready');
+//   createPeerConnection(isInitiator, configuration);
+//   //createSimplePeer(isInitiator, configuration);
+// });
 
-socket.on('message', function(message) {
-  //console.log('Client received message ', message);
-  console.log('PEER:Client received message ', message);
+// socket.on('message', function(message) {
+//   //console.log('Client received message ', message);
+//   console.log('PEER:Client received message ', message);
   
-  if(!p){
-    isInitiator = false;
-    createPeerConnection(isInitiator, configuration);
-  }
+//   if(!p){
+//     isInitiator = false;
+//     createPeerConnection(isInitiator, configuration);
+//   }
   
-  //signalingMessageCallback(message);
-  // if(message.candidate){
+//   //signalingMessageCallback(message);
+//   // if(message.candidate){
 
-  //   var candTemp = { candidate : {
-  //     candidate: message.candidate
-  //   }};
-  //   p.signal(candTemp);
-  // }else{
-  //   p.signal(message);
-  // }
-  p.signal(message);
-});
+//   //   var candTemp = { candidate : {
+//   //     candidate: message.candidate
+//   //   }};
+//   //   p.signal(candTemp);
+//   // }else{
+//   //   p.signal(message);
+//   // }
+//   p.signal(message);
+// });
 
 
 //Send message to signaling server
