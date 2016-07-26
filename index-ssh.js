@@ -263,6 +263,8 @@ app.listen(8080);
 //   console.log('Client-peer received message ', message);
 // });
 
+var serverClientId;
+
 var socket = require('socket.io-client')('http://localhost:8080');
 //var socket = require('socket.io-client')('https://localhost',{secure: true, port:8080});
 //var socket = require('socket.io-client')('https://localhost:8080');
@@ -298,9 +300,20 @@ socket.on('ipaddr', function(ipaddr) {
 socket.on('joined', function(room, clientId) {
   isInitiator = false;
   console.log('This peer has joined room', room, 'with client ID', clientId);
+  serverClientId = clientId;
+
   //grabWebCamVideo();
   createPeerConnection(isInitiator, configuration);
   //createSimplePeer(isInitiator, configuration);
+});
+
+socket.on('join', function(room, clientId) {
+  isInitiator = false;
+  if(serverClientId===clientId){
+
+  }else{
+    console.log('Peer with client id, ', clientId, ' joined room', room);
+  }
 });
 
 socket.on('ready', function() {
