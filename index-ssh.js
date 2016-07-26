@@ -47,6 +47,8 @@ var io = require('socket.io').listen(app, {
 
 var channels = {};
 
+rooms = [];
+
 io.sockets.on('connection', function (socket) {
     var initiatorChannel = '';
     if (!io.isConnected) {
@@ -100,8 +102,8 @@ io.sockets.on('connection', function (socket) {
     }
 
     socket.on('create or join', function(room) {
-        console.log('Received request to create or join room ' + room);
-
+      console.log('Received request to create or join room ' + room);
+      
         var numClients = io.sockets.sockets.length;
         console.log('Room ' + room + ' now has ' + numClients + ' client(s)');
 
@@ -127,16 +129,23 @@ io.sockets.on('connection', function (socket) {
         }
     });
 
-socket.on('createroom', function(room) {
-        console.log('Received request to create room ' + room);
+socket.on('createroom', function(roomIn) {
+        console.log('Received request to create room ' + roomIn);
 
+        if(rooms.length>0){
+
+        }else{
+          rooms.push({room:roomIn});
+          roomToChk = _.find(rooms, {room : 'testroom1'});
+          console.log('Lodash working',roomToChk);
+        }
        // var numClients = io.sockets.sockets.length;
        // console.log('Room ' + room + ' now has ' + numClients + ' client(s)');
 
         
-          socket.join(room);
-          console.log('Client ID ' + socket.id + ' created room ' + room);
-          socket.emit('created', room, socket.id);
+          socket.join(roomIn);
+          console.log('Client ID ' + socket.id + ' created room ' + roomIn);
+          socket.emit('created', roomIn, socket.id);
 
        
     });
