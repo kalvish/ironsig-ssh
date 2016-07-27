@@ -361,6 +361,11 @@ var socket = require('socket.io-client')('http://localhost:8080');
 //commpac-serverclient_create_server_client
 socket.on('commpac serverclient create server client', function(message) {
       console.log('on-commpac serverclient create server client');
+
+       socket.on('commpac serverclient create peer connection', function(message) {
+          console.log('commpac serverclient create peer connection ', message.room, message.clientid);
+        });
+
       socket.emit('commpac server server client joinroom', 'serverclientroom');
       console.log('emit-commpac server server client joinroom');
   });
