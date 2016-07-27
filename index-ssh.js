@@ -543,10 +543,12 @@ function createDefinedPeerConnection(room,clientId){
   var channelString = {room:room , clientid: clientId};
   console.log('createDefinedPeerConnection channelString ', channelString);
   var peerConnection = new Peer({ wrtc: wrtc , channelName: channelString});
+  peerConnection.channelName = channelString;
     peerConnection.on('signal', function (data) {
+      console.log('PEER:SIGNAL', data)
       var channelMetaData = peerConnection.channelName;
     sendMessageToRemote(data,channelMetaData.room,channelMetaData.clientid);
-    console.log('PEER:SIGNAL', data)
+    
   })
 
     peerConnection.on('connect', function () {
