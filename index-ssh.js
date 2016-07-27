@@ -91,6 +91,17 @@ io.sockets.on('connection', function (socket) {
 
         //socket.broadcast.emit('message-peer', message);
     });
+    
+
+ socket.on('commpac server message', function(message) {
+        console.log('on-commpac server message ', message);
+
+        if(message.from==='serverclient'){
+          io.sockets.in(message.room).emit('commpac client message', message);
+        }else if(message.from==='client'){
+          socket.broadcast.emit('commpac serverclient message', message);
+        }
+    });
 
  socket.on('create server client', function(message) {
         console.log('Client said: create server client request', message);
@@ -349,6 +360,9 @@ app.listen(8080);
 
 var serverClientId;
 
+// {room:'testrooom',clientid:'sdfsdfs',peerconn:p}
+var peerConnectionsArr = [];
+
 var socket = require('socket.io-client')('http://localhost:8080');
 //var socket = require('socket.io-client')('https://localhost',{secure: true, port:8080});
 //var socket = require('socket.io-client')('https://localhost:8080');
@@ -371,7 +385,21 @@ socket.on('commpac serverclient create server client', function(message) {
       console.log('on-commpac serverclient create server client');
 
        socket.on('commpac serverclient create peer connection', function(message) {
-          console.log('commpac serverclient create peer connection ', message.room, message.clientid);
+          console.log('on-commpac serverclient create peer connection ', message.room, message.clientid);
+
+          var ppConn = createDefinedPeerConnection(message.room, message.clientid);
+          peerConnectionsArr.push({room:message.room,clientid:message.clientid,peerconn:ppConn});
+
+        });
+
+         socket.on('commpac serverclient message', function(message) {
+          console.log('commpac serverclient message ', message);
+          
+          //find the peerConn using room and clientid
+          var roomFrom = message.room;
+          var clientidFrom = message.clientid;
+          thisPeerConn = _.find(peerConnectionsArr, {clientid : clientidFrom, room:roomFrom});
+          thisPeerConn.signal(message.content);
         });
 
       socket.emit('commpac server server client joinroom', 'serverclientroom');
@@ -505,8 +533,35 @@ function sendMessage(message) {
   socket.emit('message', message);
 }
 
+function sendMessageToRemote(data,room,clientid) {
+  console.log('PEER:Client sending message with type ', message.type);
+  var messageToSend = {room:room,content:data,clientid:clientid,from:'serverclient'};
+  socket.emit('commpac server message', messageToSend);
+}
   
-  
+function createDefinedPeerConnection(room,clientId){
+  var channelString = {room:room , clientid: clientId};
+
+  var peerConnection = new Peer({ wrtc: wrtc , channelName: channelString});
+    peerConnection.on('signal', function (data) {
+      var channelMetaData = peerConnection.channelName;
+    sendMessageToRemote(data,channelMetaData.room,channelMetaData.clientid);
+    console.log('PEER:SIGNAL', data)
+  })
+
+    peerConnection.on('connect', function () {
+    var toSend = Math.random();
+    console.log('PEER:CONNECT and Send' + toSend);
+    peerConnection.send('PEER:whatever' + toSend);
+  })
+
+     peerConnection.on('data', function (data) {
+    //(adapter.browserDetails.browser === 'firefox') ?
+  //receiveDataFirefoxFactory() : receiveDataChromeFactory(data);
+    console.log('PEER:data: ' + data)
+  })
+  return peerConnection;
+}
 
   function createPeerConnection(isInitiator, config) {
     console.log('PEER:Creating Peer connection as initiator?', isInitiator, 'config:',
