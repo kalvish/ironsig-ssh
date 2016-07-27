@@ -541,7 +541,7 @@ function sendMessageToRemote(data,room,clientid) {
   
 function createDefinedPeerConnection(room,clientId){
   var channelString = {room:room , clientid: clientId};
-
+  console.log('createDefinedPeerConnection channelString ', channelString);
   var peerConnection = new Peer({ wrtc: wrtc , channelName: channelString});
     peerConnection.on('signal', function (data) {
       var channelMetaData = peerConnection.channelName;
