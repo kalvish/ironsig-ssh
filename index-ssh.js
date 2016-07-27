@@ -404,6 +404,7 @@ socket.on('commpac serverclient create server client', function(message) {
           thisPeerConn = thisPeerConnObjt.peerconn;
           console.log('commpac serverclient retrieve peerconn ', thisPeerConn.channelName);
           console.log('commpac serverclient retrieve content ', message.content);
+          thisPeerConn.channelName = '';
           thisPeerConn.signal(message.content);
         });
 
