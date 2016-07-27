@@ -389,7 +389,7 @@ socket.on('commpac serverclient create server client', function(message) {
 
           var ppConn = createDefinedPeerConnection(message.room, message.clientid);
           peerConnectionsArr.push({room:message.room,clientid:message.clientid,peerconn:ppConn});
-
+          console.log('on-peerConnectionsArr push ',{room:message.room,clientid:message.clientid,peerconn:ppConn});
         });
 
          socket.on('commpac serverclient message', function(message) {
