@@ -403,6 +403,7 @@ socket.on('commpac serverclient create server client', function(message) {
           thisPeerConnObjt = _.find(peerConnectionsArr, {clientid : clientidFrom, room:roomFrom});
           thisPeerConn = thisPeerConnObjt.peerconn;
           console.log('commpac serverclient retrieve peerconn ', thisPeerConn.channelName);
+          console.log('commpac serverclient retrieve content ', message.content);
           thisPeerConn.signal(message.content);
         });
 
