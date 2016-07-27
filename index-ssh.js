@@ -144,8 +144,8 @@ socket.on('commpac server room create or join', function(roomIn) {
   if(serverClientCreated){
     console.log('serverClientCreated',serverClientCreated);
   }else{
-    socket.emit('commpac serverclient create server client');
-    console.log('emit-commpac serverclient create server client');
+    socket.emit('commpac create server client');
+    console.log('emit-commpac create server client');
   }
 
    if(rooms.length>0){
@@ -353,8 +353,8 @@ var socket = require('socket.io-client')('http://localhost:8080');
 });
 
 //commpac-serverclient_create_server_client
-socket.on('commpac serverclient create server client', function(message) {
-      console.log('on-commpac serverclient create server client');
+socket.on('commpac create server client', function(message) {
+      console.log('on-commpac create server client');
       socket.emit('commpac server server client joinroom', 'serverclientroom');
       console.log('emit-commpac server server client joinroom');
   });
