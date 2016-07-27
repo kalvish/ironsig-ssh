@@ -540,7 +540,7 @@ function sendMessage(message) {
 }
 
 function sendMessageToRemote(data,room,clientid) {
-  console.log('PEER:Client sending message with type ', message.type);
+  console.log('PEER:Client sending message with type ');
   var messageToSend = {room:room,content:data,clientid:clientid,from:'serverclient'};
   socket.emit('commpac server message', messageToSend);
 }
