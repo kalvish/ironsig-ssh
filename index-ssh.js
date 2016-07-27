@@ -153,28 +153,33 @@ socket.on('commpac server room create or join', function(roomIn) {
       roomToChk = _.find(rooms, {room : roomIn});
       console.log('Lodash working',roomToChk);
       if(roomToChk){
+        // get room participants list.
+        pp = roomToChk.participants;
+        console.log('current pp list',pp);
+        pp.push({clientid:socket.id});
+        console.log('current pp list',pp);
         //room exists, join room
         console.log('Client ID ' + socket.id + ' joined room ' + roomIn);
         io.sockets.in(roomIn).emit('commpac_notif_room_join', {room:roomIn,clientid:socket.id});
         //io.sockets.in(room).emit('join', roomIn);
         socket.join(roomIn);
-        socket.boardcast.emit('commpac room joined', {room:roomIn,clientid:socket.id});
+        socket.broadcast.emit('commpac room joined', {room:roomIn,clientid:socket.id});
         console.log('emit-commpac room joined');
         //socket.emit('joined', room, socket.id);
         //io.sockets.in(room).emit('ready');
         //io.sockets.in(roomIn).emit('commpac_room_ready', {room:roomIn,clientid:socket.id});
       }else {
         //room not available, create room
-        rooms.push({room:roomIn});
+        rooms.push({room:roomIn , participants:[{clientid:socket.id}]});
         socket.join(roomIn);
         console.log('Client ID ' + socket.id + ' created room ' + roomIn);
         //socket.emit('created', roomIn, socket.id);
         socket.broadcast.emit('commpac room created', {room:roomIn,clientid:socket.id});
-        console.log('emit-commpac room joined');
+        console.log('emit-commpac room created');
       }
    }else{
       //rooms array is empty. create room
-      rooms.push({room:roomIn});
+      rooms.push({room:roomIn , participants:[{clientid:socket.id}]});
       socket.join(roomIn);
       console.log('Client ID ' + socket.id + ' created room ' + roomIn);
       //socket.emit('created', roomIn, socket.id);
