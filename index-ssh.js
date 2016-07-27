@@ -564,7 +564,7 @@ function createDefinedPeerConnection(room,clientId){
     peerConnection.on('connect', function () {
     var toSend = Math.random();
     console.log('PEER:CONNECT and Send' + toSend);
-    peerConnection.send('PEER:whatever' + toSend);
+    //peerConnection.send('PEER:whatever' + toSend);
   })
 
      peerConnection.on('data', function (data) {
