@@ -577,6 +577,7 @@ function createDefinedPeerConnection(room,clientId){
       var dataToPass = channelMetaData.split('commpac');
       var roomToPass = dataToPass[0];
       //find peer conn array of all clients in the room
+      console.log('roomToPass ', roomToPass);
       console.log('peerConnectionsArr ', peerConnectionsArr);
       clientsList = _.filter(peerConnectionsArr, { room: roomToPass});
       console.log('client list to send data', clientsList);
