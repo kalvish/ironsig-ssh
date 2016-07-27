@@ -136,8 +136,8 @@ io.sockets.on('connection', function (socket) {
     });
 
 
-
-socket.on('commpac-server_room_create_or_join', function(roomIn) {
+//commpac-server_room_create_or_join
+socket.on('commpacjoin', function(roomIn) {
 
   console.log('on-commpac-server_room_create_or_join',roomIn);
   //check whether server client is available or not.
