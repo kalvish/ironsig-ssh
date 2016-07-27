@@ -94,11 +94,13 @@ io.sockets.on('connection', function (socket) {
     
 
  socket.on('commpac server message', function(message) {
-        console.log('on-commpac server message ', message);
+        console.log('on-commpac server message ', message.from);
 
         if(message.from==='serverclient'){
+          console.log('on-commpac server message ran ', message.from);
           io.sockets.in(message.room).emit('commpac client message', message);
         }else if(message.from==='client'){
+          console.log('on-commpac server message ran ', message.from);
           socket.broadcast.emit('commpac serverclient message', message);
         }
     });
@@ -398,7 +400,9 @@ socket.on('commpac serverclient create server client', function(message) {
           //find the peerConn using room and clientid
           var roomFrom = message.room;
           var clientidFrom = message.clientid;
-          thisPeerConn = _.find(peerConnectionsArr, {clientid : clientidFrom, room:roomFrom});
+          thisPeerConnObjt = _.find(peerConnectionsArr, {clientid : clientidFrom, room:roomFrom});
+          thisPeerConn = thisPeerConnObjt.peerconn;
+          console.log('commpac serverclient retrieve peerconn ', thisPeerConn.channelName);
           thisPeerConn.signal(message.content);
         });
 
