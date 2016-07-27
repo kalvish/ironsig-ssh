@@ -203,6 +203,13 @@ socket.on('createroom', function(roomIn) {
        
     });
 
+
+socket.on('commpac server create peer connection', function(details) {
+  console.log('on-commpac server create peer connection', details.room, details.clientid);
+    io.to(commpac_roomserverclient).emit('commpac serverclient create peer connection', details);
+    console.log('emit-commpac server create peer connection');
+  });
+
 var commpac_serverclientid;
 var commpac_roomserverclient;
 //commpac-server_server_client_joinroom
