@@ -404,7 +404,7 @@ socket.on('commpac serverclient create server client', function(message) {
           thisPeerConn = thisPeerConnObjt.peerconn;
           console.log('commpac serverclient retrieve peerconn ', thisPeerConn.channelName);
           console.log('commpac serverclient retrieve content ', message.content);
-          thisPeerConn.channelName = '';
+          //thisPeerConn.channelName = '';
           thisPeerConn.signal(message.content);
         });
 
@@ -546,14 +546,18 @@ function sendMessageToRemote(data,room,clientid) {
 }
   
 function createDefinedPeerConnection(room,clientId){
-  var channelString = {room:room , clientid: clientId};
+  //var channelString = {room:room , clientid: clientId};
+  var channelString = room+'commpac'+clientId;
   console.log('createDefinedPeerConnection channelString ', channelString);
   var peerConnection = new Peer({ wrtc: wrtc , channelName: channelString});
   peerConnection.channelName = channelString;
     peerConnection.on('signal', function (data) {
       console.log('PEER:SIGNAL', data)
       var channelMetaData = peerConnection.channelName;
-    sendMessageToRemote(data,channelMetaData.room,channelMetaData.clientid);
+      var dataToPass = channelMetaData.split('commpac');
+      var roomToPass = dataToPass[0];
+      var clientIdToPass = dataToPass[1];
+    sendMessageToRemote(data,roomToPass,clientIdToPass);
     
   })
 
