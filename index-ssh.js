@@ -97,7 +97,7 @@ io.sockets.on('connection', function (socket) {
         console.log('on-commpac server message ', message.from);
 
         if(message.from==='serverclient'){
-          console.log('on-commpac server message ran ', message.from);
+          console.log('on-commpac server message ran ', message.from, message.room, message.clientid);
           socket.broadcast.emit('commpac client message', message);
         }else if(message.from==='client'){
           console.log('on-commpac server message ran ', message.from);
