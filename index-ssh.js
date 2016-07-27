@@ -578,11 +578,12 @@ function createDefinedPeerConnection(room,clientId){
       var roomToPass = dataToPass[0];
       //find peer conn array of all clients in the room
       console.log('roomToPass ', roomToPass);
-      console.log('peerConnectionsArr ', peerConnectionsArr);
+      //console.log('peerConnectionsArr ', peerConnectionsArr);
       clientsList = _.filter(peerConnectionsArr, { room: roomToPass});
-      console.log('client list to send data', clientsList);
+      //console.log('client list to send data', clientsList);
       _.forEach(clientsList, function(clientConn) {
-        console.log(clientConn.peerconn);
+        //console.log(clientConn.peerconn);
+        clientConn.peerconn.send('send to ' + clientConn.clientid + ' data ' +  data);
       });
   })
   return peerConnection;
