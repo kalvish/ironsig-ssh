@@ -144,8 +144,8 @@ socket.on('commpac server room create or join', function(roomIn) {
   if(serverClientCreated){
 
   }else{
-    socket.emit('commpac-serverclient_create_server_client');
-    console.log('emit-commpac-serverclient_create_server_client');
+    socket.emit('commpac serverclient create server client');
+    console.log('emit-commpac serverclient create server client');
   }
 
    if(rooms.length>0){
@@ -157,7 +157,7 @@ socket.on('commpac server room create or join', function(roomIn) {
         io.sockets.in(roomIn).emit('commpac_notif_room_join', {room:roomIn,clientid:socket.id});
         //io.sockets.in(room).emit('join', roomIn);
         socket.join(roomIn);
-        socket.emit('commpac_room_joined', {room:roomIn,clientid:socket.id});
+        socket.emit('commpac room joined', {room:roomIn,clientid:socket.id});
         //socket.emit('joined', room, socket.id);
         //io.sockets.in(room).emit('ready');
         //io.sockets.in(roomIn).emit('commpac_room_ready', {room:roomIn,clientid:socket.id});
@@ -167,7 +167,7 @@ socket.on('commpac server room create or join', function(roomIn) {
         socket.join(roomIn);
         console.log('Client ID ' + socket.id + ' created room ' + roomIn);
         //socket.emit('created', roomIn, socket.id);
-        socket.emit('commpac_room_created', {room:roomIn,clientid:socket.id});
+        socket.emit('commpac room created', {room:roomIn,clientid:socket.id});
       }
    }else{
       //rooms array is empty. create room
@@ -197,15 +197,15 @@ socket.on('createroom', function(roomIn) {
 var commpac_serverclientid;
 var commpac_roomserverclient;
 //commpac-server_server_client_joinroom
-socket.on('commpac-server_server_client_joinroom', function(roomServerClient) {
-  console.log('on-commpac-server_server_client_joinroom',roomServerClient);
+socket.on('commpac server server client joinroom', function(roomServerClient) {
+  console.log('on-commpac server server client joinroom',roomServerClient);
   serverClientCreated = true;
   commpac_serverclientid = socket.id;
      socket.join(roomServerClient);
-      io.sockets.in(roomServerClient).emit('commpac-client_server_client_joined', roomServerClient);
-      console.log('emit-commpac-client_server_client_joined',roomServerClient);
-      socket.emit('commpac-client_server_client_ready', roomServerClient, socket.id);
-      console.log('emit-commpac-client_server_client_ready');
+      io.sockets.in(roomServerClient).emit('commpac client server client joined', roomServerClient);
+      console.log('emit-commpac client server client joined',roomServerClient);
+      socket.emit('commpac client server client ready', roomServerClient, socket.id);
+      console.log('emit-commpac client server client ready');
   });
 
 socket.on('joinroom', function(room) {
@@ -350,14 +350,14 @@ var socket = require('socket.io-client')('http://localhost:8080');
 });
 
 //commpac-serverclient_create_server_client
-socket.on('commpac-serverclient_create_server_client', function(message) {
-      console.log('on-commpac-serverclient_create_server_client');
-      socket.emit('commpac-server_server_client_joinroom', 'serverclientroom');
-      console.log('emit-commpac-server_server_client_joinroom');
+socket.on('commpac serverclient create server client', function(message) {
+      console.log('on-commpac serverclient create server client');
+      socket.emit('commpac server server client joinroom', 'serverclientroom');
+      console.log('emit-commpac server server client joinroom');
   });
 
-socket.on('commpac-client_server_client_joined', function(message) {
-      console.log('on-commpac-client_server_client_joined',message);
+socket.on('commpac client server client joined', function(message) {
+      console.log('on-commpac client server client joined',message);
   });
 
 socket.on('create server client request', function(message) {
