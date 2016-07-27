@@ -568,22 +568,22 @@ function createDefinedPeerConnection(room,clientId){
   })
 
      peerConnection.on('data', function (data) {
-    //(adapter.browserDetails.browser === 'firefox') ?
-  //receiveDataFirefoxFactory() : receiveDataChromeFactory(data);
-    console.log('PEER:data: ' + data)
+
+    //console.log('PEER:data: ' + data)
 
     //send data receive to same room to the other clients in the room
     var channelMetaData = peerConnection.channelName;
       var dataToPass = channelMetaData.split('commpac');
       var roomToPass = dataToPass[0];
       //find peer conn array of all clients in the room
-      console.log('roomToPass ', roomToPass);
-      //console.log('peerConnectionsArr ', peerConnectionsArr);
+      //console.log('roomToPass ', roomToPass);
+ 
       clientsList = _.filter(peerConnectionsArr, { room: roomToPass});
-      //console.log('client list to send data', clientsList);
+
       _.forEach(clientsList, function(clientConn) {
-        //console.log(clientConn.peerconn);
-        clientConn.peerconn.send('send to ' + clientConn.clientid + ' data ' +  data);
+
+        //clientConn.peerconn.send('send to ' + clientConn.clientid + ' data ' +  data);
+        clientConn.peerconn.send(data);
       });
   })
   return peerConnection;
