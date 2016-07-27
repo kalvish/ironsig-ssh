@@ -145,7 +145,7 @@ socket.on('commpac server room create or join', function(roomIn) {
     console.log('serverClientCreated',serverClientCreated);
   }else{
     //commpac serverclient create server client
-    socket.emit('created',serverClientCreated,'test');
+    socket.broadcast.emit('commpac serverclient create server client',serverClientCreated);
     console.log('emit-commpac serverclient create server client',serverClientCreated);
   }
 
