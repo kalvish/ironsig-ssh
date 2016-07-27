@@ -163,7 +163,7 @@ socket.on('commpac server room create or join', function(roomIn) {
         io.sockets.in(roomIn).emit('commpac_notif_room_join', {room:roomIn,clientid:socket.id});
         //io.sockets.in(room).emit('join', roomIn);
         socket.join(roomIn);
-        socket.broadcast.emit('commpac room joined', {room:roomIn,clientid:socket.id});
+        socket.emit('commpac room joined', {room:roomIn,clientid:socket.id});
         console.log('emit-commpac room joined');
         //socket.emit('joined', room, socket.id);
         //io.sockets.in(room).emit('ready');
@@ -174,7 +174,7 @@ socket.on('commpac server room create or join', function(roomIn) {
         socket.join(roomIn);
         console.log('Client ID ' + socket.id + ' created room ' + roomIn);
         //socket.emit('created', roomIn, socket.id);
-        socket.broadcast.emit('commpac room created', {room:roomIn,clientid:socket.id});
+        socket.emit('commpac room created', {room:roomIn,clientid:socket.id});
         console.log('emit-commpac room created');
       }
    }else{
