@@ -208,7 +208,7 @@ socket.on('commpac server server client joinroom', function(roomServerClient) {
      socket.join(roomServerClient);
       io.sockets.in(roomServerClient).emit('commpac client server client joined', roomServerClient);
       console.log('emit-commpac client server client joined',roomServerClient);
-      socket.boardcast.emit('commpac client server client ready', roomServerClient, socket.id);
+      socket.broadcast.emit('commpac client server client ready', roomServerClient, socket.id);
       console.log('emit-commpac client server client ready');
   });
 
