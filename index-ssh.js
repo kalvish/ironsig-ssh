@@ -206,7 +206,7 @@ socket.on('createroom', function(roomIn) {
 
 socket.on('commpac server create peer connection', function(details) {
   console.log('on-commpac server create peer connection', details.room, details.clientid);
-    io.sockets.in(roomServerClient).emit('commpac serverclient create peer connection', details);
+    io.sockets.in(commpac_roomserverclient).emit('commpac serverclient create peer connection', details);
     console.log('emit-commpac serverclient create peer connection');
   });
 
@@ -215,12 +215,13 @@ var commpac_roomserverclient;
 //commpac-server_server_client_joinroom
 socket.on('commpac server server client joinroom', function(roomServerClient) {
   console.log('on-commpac server server client joinroom',roomServerClient);
+  commpac_roomserverclient = roomServerClient;
   serverClientCreated = true;
   commpac_serverclientid = socket.id;
-     socket.join(roomServerClient);
-      io.sockets.in(roomServerClient).emit('commpac client server client joined', roomServerClient);
-      console.log('emit-commpac client server client joined',roomServerClient);
-      socket.broadcast.emit('commpac client server client ready', roomServerClient, socket.id);
+     socket.join(commpac_roomserverclient);
+      io.sockets.in(commpac_roomserverclient).emit('commpac client server client joined', commpac_roomserverclient);
+      console.log('emit-commpac client server client joined',commpac_roomserverclient);
+      socket.broadcast.emit('commpac client server client ready', commpac_roomserverclient, socket.id);
       console.log('emit-commpac client server client ready');
   });
 
