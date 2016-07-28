@@ -223,6 +223,13 @@ socket.on('commpac server create peer connection', function(details) {
     console.log('emit-commpac serverclient create peer connection');
   });
 
+
+socket.on('commpac server created peer connection', function() {
+  console.log('on-commpac server created peer connection');
+    socket.broadcast.emit('commpac client created peer connection');
+    console.log('emit-commpac client created peer connection');
+  });
+
 var commpac_serverclientid;
 var commpac_roomserverclient;
 //commpac-server_server_client_joinroom
@@ -392,6 +399,8 @@ socket.on('commpac serverclient create server client', function(message) {
           var ppConn = createDefinedPeerConnection(message.room, message.clientid);
           peerConnectionsArr.push({room:message.room,clientid:message.clientid,peerconn:ppConn});
           console.log('on-peerConnectionsArr push ',{room:message.room,clientid:message.clientid,peerconn:ppConn.channelName});
+          socket.emit('commpac server created peer connection');
+          console.log('emit-commpac server created peer connection');
         });
 
          socket.on('commpac serverclient message', function(message) {
