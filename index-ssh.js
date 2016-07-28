@@ -405,7 +405,11 @@ socket.on('commpac serverclient create server client', function(message) {
           console.log('commpac serverclient retrieve peerconn ', thisPeerConn.channelName);
           console.log('commpac serverclient retrieve content ', message.content);
           //thisPeerConn.channelName = '';
-          thisPeerConn.signal(message.content);
+          try {
+            thisPeerConn.signal(message.content);
+          }catch(err){
+            console.log('thisPeerConn.signal: roomFrom',roomFrom, ' clientidfrom:',clientidfrom, ' error:',err, ' channelName:',thisPeerConn.channelName);
+          }
         });
 
       socket.emit('commpac server server client joinroom', 'serverclientroom');
