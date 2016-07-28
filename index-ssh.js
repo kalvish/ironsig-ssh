@@ -417,7 +417,7 @@ socket.on('commpac serverclient create server client', function(message) {
           try {
             thisPeerConn.signal(message.content);
           }catch(err){
-            console.log('thisPeerConn.signal: roomFrom',roomFrom, ' clientidfrom:',clientidfrom, ' error:',err, ' channelName:',thisPeerConn.channelName);
+            console.log('thisPeerConn.signal: roomFrom',roomFrom, ' clientidfrom:',clientidFrom, ' error:',err, ' channelName:',thisPeerConn.channelName);
           }
         });
 
