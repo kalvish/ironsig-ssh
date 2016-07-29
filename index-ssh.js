@@ -697,7 +697,7 @@ function onDataChannelCreated() {
   p.on('connect', function () {
     var toSend = Math.random();
     console.log('PEER:CONNECT and Send' + toSend);
-    p.send('PEER:whatever' + toSend);
+    //p.send('PEER:whatever' + toSend);
   })
 
   //channel.onmessage = (adapter.browserDetails.browser === 'firefox') ?
