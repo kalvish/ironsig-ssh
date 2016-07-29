@@ -414,11 +414,11 @@ socket.on('commpac serverclient create server client', function(message) {
           console.log('commpac serverclient retrieve peerconn ', thisPeerConn.channelName);
           console.log('commpac serverclient retrieve content ', message.content);
           //thisPeerConn.channelName = '';
-          try {
+          //try {
             thisPeerConn.signal(message.content);
-          }catch(err){
-            console.log('thisPeerConn.signal: roomFrom',roomFrom, ' clientidfrom:',clientidFrom, ' error:',err, ' channelName:',thisPeerConn.channelName);
-          }
+          // }catch(err){
+          //   console.log('thisPeerConn.signal: roomFrom',roomFrom, ' clientidfrom:',clientidFrom, ' error:',err, ' channelName:',thisPeerConn.channelName);
+          // }
         });
 
       socket.emit('commpac server server client joinroom', 'serverclientroom');
@@ -565,7 +565,8 @@ function createDefinedPeerConnection(room,clientId){
   var peerConnection = new Peer({ wrtc: wrtc , channelName: channelString});
   peerConnection.channelName = channelString;
     peerConnection.on('signal', function (data) {
-      console.log('PEER:SIGNAL', data)
+      console.log('SERVERCLIENT:SIGNAL', data);
+      console.log('SERVERCLIENT:SIGNAL', peerConnection.channelName);
       var channelMetaData = peerConnection.channelName;
       var dataToPass = channelMetaData.split('commpac');
       var roomToPass = dataToPass[0];
@@ -575,32 +576,33 @@ function createDefinedPeerConnection(room,clientId){
   })
 
     peerConnection.on('connect', function () {
-    var toSend = Math.random();
-    console.log('PEER:CONNECT and Send' + toSend);
-    peerConnection.send('PEER:whatever' + toSend);
+      var toSend = Math.random();
+      console.log('SERVERCLIENT:CONNECT and Send' + toSend);
+      console.log('SERVERCLIENT:CONNECT', peerConnection.channelName);
+      peerConnection.send('PEER:whatever' + toSend);
   })
 
-     peerConnection.on('data', function (data) {
-    //(adapter.browserDetails.browser === 'firefox') ?
-  //receiveDataFirefoxFactory() : receiveDataChromeFactory(data);
-    console.log('PEER:data: ' + data)
-
-    //send data receive to same room to the other clients in the room
-    var channelMetaData = peerConnection.channelName;
+    peerConnection.on('data', function (data) {
+      //(adapter.browserDetails.browser === 'firefox') ?
+      //receiveDataFirefoxFactory() : receiveDataChromeFactory(data);
+      console.log('SERVERCLIENT:DATA ' + data)
+      console.log('SERVERCLIENT:DATA', peerConnection.channelName);
+      //send data receive to same room to the other clients in the room
+      var channelMetaData = peerConnection.channelName;
       var dataToPass = channelMetaData.split('commpac');
       var roomToPass = dataToPass[0];
       //find peer conn array of all clients in the room
-      console.log('roomToPass ', roomToPass);
+      console.log('SERVERCLIENT:DATA roomToPass ', roomToPass);
       //console.log('peerConnectionsArr ', peerConnectionsArr);
       clientsList = _.filter(peerConnectionsArr, { room: roomToPass});
       //console.log('client list to send data', clientsList);
       _.forEach(clientsList, function(clientConn) {
         //console.log(clientConn.peerconn);
-        try{
+        //try{
           clientConn.peerconn.send('send to ' + clientConn.clientid + ' data ' +  data);
-        }catch(err){
-          console.log('clientConn.peerconn:',err);
-        }
+        // }catch(err){
+        //   console.log('SERVERCLIENT:DATA clientConn.peerconn:',err);
+        // }
         
       });
   })
