@@ -599,7 +599,8 @@ function createDefinedPeerConnection(room,clientId){
       _.forEach(clientsList, function(clientConn) {
         //console.log(clientConn.peerconn);
         try{
-          clientConn.peerconn.send('send to ' + clientConn.clientid + ' data ' +  data);
+          //clientConn.peerconn.send('send to ' + clientConn.clientid + ' data ' +  data);
+          clientConn.peerconn.send(data);
          }catch(err){
            console.log('SERVERCLIENT:DATA clientConn.peerconn:',err);
          }
