@@ -585,15 +585,15 @@ function createDefinedPeerConnection(room,clientId){
     peerConnection.on('data', function (data) {
       //(adapter.browserDetails.browser === 'firefox') ?
       //receiveDataFirefoxFactory() : receiveDataChromeFactory(data);
-      console.log('SERVERCLIENT:DATA ' + data)
-      console.log('SERVERCLIENT:DATA', peerConnection.channelName);
+      //console.log('SERVERCLIENT:DATA ' + data)
+      //console.log('SERVERCLIENT:DATA', peerConnection.channelName);
       //send data receive to same room to the other clients in the room
       var channelMetaData = peerConnection.channelName;
       var dataToPass = channelMetaData.split('commpac');
       var roomToPass = dataToPass[0];
       //find peer conn array of all clients in the room
-      console.log('SERVERCLIENT:DATA roomToPass ', roomToPass);
-      //console.log('peerConnectionsArr ', peerConnectionsArr);
+      //console.log('SERVERCLIENT:DATA roomToPass ', roomToPass);
+
       clientsList = _.filter(peerConnectionsArr, { room: roomToPass});
       //console.log('client list to send data', clientsList);
       _.forEach(clientsList, function(clientConn) {
