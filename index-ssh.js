@@ -598,11 +598,11 @@ function createDefinedPeerConnection(room,clientId){
       //console.log('client list to send data', clientsList);
       _.forEach(clientsList, function(clientConn) {
         //console.log(clientConn.peerconn);
-        //try{
+        try{
           clientConn.peerconn.send('send to ' + clientConn.clientid + ' data ' +  data);
-        // }catch(err){
-        //   console.log('SERVERCLIENT:DATA clientConn.peerconn:',err);
-        // }
+         }catch(err){
+           console.log('SERVERCLIENT:DATA clientConn.peerconn:',err);
+         }
         
       });
   })
