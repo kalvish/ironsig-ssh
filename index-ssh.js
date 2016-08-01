@@ -591,6 +591,9 @@ function createDefinedPeerConnection(room,clientId){
       var channelMetaData = peerConnection.channelName;
       var dataToPass = channelMetaData.split('commpac');
       var roomToPass = dataToPass[0];
+
+      //get clientid
+      var clientidOfPresenter = dataToPass[1];
       //find peer conn array of all clients in the room
       //console.log('SERVERCLIENT:DATA roomToPass ', roomToPass);
 
@@ -600,7 +603,10 @@ function createDefinedPeerConnection(room,clientId){
         //console.log(clientConn.peerconn);
         try{
           //clientConn.peerconn.send('send to ' + clientConn.clientid + ' data ' +  data);
-          clientConn.peerconn.send(data);
+          if(!clientConn.clientid==clientidOfPresenter){
+            clientConn.peerconn.send(data);
+          }
+          
           //var toSend = Math.random();
           //console.log('SERVERCLIENT:CONNECT and Send' + toSend);
          }catch(err){
