@@ -601,8 +601,8 @@ function createDefinedPeerConnection(room,clientId){
         try{
           //clientConn.peerconn.send('send to ' + clientConn.clientid + ' data ' +  data);
           clientConn.peerconn.send(data);
-          var toSend = Math.random();
-          console.log('SERVERCLIENT:CONNECT and Send' + toSend);
+          //var toSend = Math.random();
+          //console.log('SERVERCLIENT:CONNECT and Send' + toSend);
          }catch(err){
            console.log('SERVERCLIENT:DATA clientConn.peerconn:',err);
          }
