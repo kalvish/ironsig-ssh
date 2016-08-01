@@ -603,7 +603,7 @@ function createDefinedPeerConnection(room,clientId){
         //console.log(clientConn.peerconn);
         try{
           //clientConn.peerconn.send('send to ' + clientConn.clientid + ' data ' +  data);
-          console.log('SERVERCLIENT:DATA clientConn.clientid:',clientConn.clientid,' clientidOfPresenter:',clientidOfPresenter);
+          //console.log('SERVERCLIENT:DATA clientConn.clientid:',clientConn.clientid,' clientidOfPresenter:',clientidOfPresenter);
           if(clientConn.clientid!=clientidOfPresenter){
             clientConn.peerconn.send(data);
           }
